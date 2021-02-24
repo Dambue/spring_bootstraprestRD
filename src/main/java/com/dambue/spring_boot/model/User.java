@@ -35,12 +35,15 @@ public class User implements UserDetails {
     //@Min(value = 0, message = "Вы ввели отрицательное значение")
     private Byte age;
 
+    @Column (name = "email")
+    private String email;
+
     @Column (name = "password")
     //@NotEmpty(message = "Поле обязательно для заполнения")
     //@Size(min=2, message = "Не меньше 5 знаков")
     private String password;
 
-    @ManyToMany(fetch = FetchType.EAGER, targetEntity = Role.class, cascade = CascadeType.ALL)
+    @ManyToMany(fetch = FetchType.EAGER)// targetEntity = Role.class, cascade = CascadeType.ALL)
     @JoinTable(name = "users_roles",
             joinColumns = @JoinColumn(name = "user_id"),
             inverseJoinColumns = @JoinColumn (name = "role_id"))
@@ -50,12 +53,21 @@ public class User implements UserDetails {
 
     }
 
-    public User(String name, String lastName, Byte age, String password, Set<Role> roles) {
+    public User(String name, String lastName, Byte age, String email, String password, Set<Role> roles) {
         this.name = name;
         this.lastName = lastName;
         this.age = age;
+        this.email = email;
         this.password = password;
         this.roles = roles;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
     }
 
     public Long getId() {
@@ -102,6 +114,10 @@ public class User implements UserDetails {
         this.roles = roles;
     }
 
+    public String findRole() {
+        return roles.size() == 2 ? "ADMIN USER" : "USER";
+    }
+
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return roles;
@@ -114,7 +130,7 @@ public class User implements UserDetails {
 
     @Override
     public String getUsername() {
-        return name;
+        return email;
     }
 
     @Override
@@ -137,16 +153,16 @@ public class User implements UserDetails {
         return true;
     }
 
-    @Override
+    /*@Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         User user = (User) o;
-        return Objects.equals(name, user.name);
+        return Objects.equals(email, user.email);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(name);
-    }
+        return Objects.hash(email);
+    }*/
 }
