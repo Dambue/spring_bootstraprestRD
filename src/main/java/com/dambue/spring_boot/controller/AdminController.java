@@ -59,20 +59,21 @@ public class AdminController {
         userService.save(new User(name, last_name, age, email, password, roleSet));
         return "redirect:/admin/";
     }
+
     @GetMapping("/{id}/edit")
     public String edit(@PathVariable("id") Long id, Model model) {
         model.addAttribute("user", userService.show(id));
         return "admin";
     }
 
-    @PatchMapping ("/{id}/edit")
+    @PatchMapping("/{id}/edit")
     public String update(@ModelAttribute("user") User user, @PathVariable("id") Long id, @RequestParam("roles") Long[] role) {
         Set<Role> roleSet = new HashSet<>();
         for (Long roles : role) {
-           roleSet.add(userService.findRoleById(roles));
+            roleSet.add(userService.findRoleById(roles));
         }
         user.setRoles(roleSet);
-        userService.update(id,user);
+        userService.update(id, user);
         return "redirect:/admin/";
     }
 
