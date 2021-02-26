@@ -103,7 +103,11 @@ public class User implements UserDetails {
     }
 
     public String findRole() {
-        return roles.size() == 2 ? "ADMIN USER" : "USER";
+        StringBuilder roles = new StringBuilder();
+        for (Role role : getRoles()) {
+            roles.append(role.getRole().replaceAll("ROLE_", "") + " ");
+        }
+        return roles.toString();
     }
 
     @Override
