@@ -57,7 +57,7 @@
 
         <th:block th:each="user : ${users}">
 
-            <form class="deleteForm" th:method="GET" id="delF" th:attr="data-id2=${user.getId()}"
+            <form class="deleteForm" th:method="GET" id="deleteForm" th:attr="data-id2=${user.getId()}"
 
                   th:object="${user}">
 
@@ -140,7 +140,7 @@
             </form>
 
             <form class="editForm" th:method="GET"
-                  method="post" id="eForm" th:object="${user}">
+                  method="post" id="editForm" th:object="${user}">
                 <div class="modal fade" id="editModal" tabindex="-1" role="dialog"
                      aria-labelledby="editUser" aria-hidden="true">
 

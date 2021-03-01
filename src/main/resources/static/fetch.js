@@ -11,7 +11,7 @@ async function createTable() {
 
         let listRoles = '';
         for (let element of users[i].authorities) {
-            listRoles += " " + element.role;
+            listRoles += " " + element.role.replaceAll("ROLE_", "");
         }
         let userid = users[i].id;
         let username = users[i].name;
@@ -49,7 +49,7 @@ async function getUserForEdit(id) {
 }
 
 function editUser() {
-    $("#eForm").submit(function (event) {
+    $("#editForm").submit(function (event) {
         event.preventDefault()
 
         let role = [];
@@ -88,7 +88,7 @@ async function getUserForDelete(id) {
     $(".deleteForm #age2").val(user.age);
     $(".deleteForm #email2").val(user.email);
 
-    $("#delF").submit(function (event) {
+    $("#deleteForm").submit(function (event) {
         event.preventDefault()
         fetch('/api/admin/' + id,
             {method: 'DELETE'});
