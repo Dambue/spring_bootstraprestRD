@@ -16,7 +16,7 @@ public interface UserService {
 
     User show(Long id);
 
-    void update(Long id, User updUser);
+    void update(User updUser);
 
     UserDetails loadUserByUsername(String email);
 
