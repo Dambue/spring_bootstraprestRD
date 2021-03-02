@@ -13,7 +13,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 
 @Service
-public class UserServiceImpl implements UserService, UserDetailsService {
+public class UserServiceImpl implements UserService {
 
     private final UserRepository userRepository;
 
@@ -33,7 +33,6 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     @Override
     @Transactional
     public void save(User user) {
-        //user.setRoles(Collections.singleton(new Role("ROLE_USER")));
         userRepository.save(user);
     }
 
@@ -53,16 +52,6 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     @Transactional
     public void update(User updUser) {
         userRepository.save(updUser);
-    }
-
-    @Override
-    @Transactional
-    public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
-        User user = userRepository.findUserByEmail(email);
-        if (user == null) {
-            throw new UsernameNotFoundException("User not found");
-        }
-        return user;
     }
 
     @Override

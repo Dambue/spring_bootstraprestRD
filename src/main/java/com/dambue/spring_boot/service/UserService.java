@@ -18,8 +18,6 @@ public interface UserService {
 
     void update(User updUser);
 
-    UserDetails loadUserByUsername(String email);
-
     Role findRoleById(Long id);
 }
 
