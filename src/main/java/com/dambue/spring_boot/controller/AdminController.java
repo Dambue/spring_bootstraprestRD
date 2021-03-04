@@ -4,7 +4,6 @@ package com.dambue.spring_boot.controller;
 
 import com.dambue.spring_boot.model.User;
 import com.dambue.spring_boot.service.UserService;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;

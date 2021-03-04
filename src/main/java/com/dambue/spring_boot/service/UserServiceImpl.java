@@ -4,9 +4,6 @@ import com.dambue.spring_boot.model.Role;
 import com.dambue.spring_boot.model.User;
 import com.dambue.spring_boot.repository.RoleRepository;
 import com.dambue.spring_boot.repository.UserRepository;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -25,7 +22,6 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    @Transactional
     public List<User> index() {
         return userRepository.findAll();
     }
