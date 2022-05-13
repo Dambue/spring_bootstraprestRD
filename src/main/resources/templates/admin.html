@@ -23,37 +23,113 @@
     <div class="col col-md-2 bg-white flex-column mb-2">
         <ul class="nav flex-column nav-pills ">
             <div class="list-group">
-                <a th:href="@{/admin/}" class="list-group-item active">Admin</a>
+                <a th:href="@{/admin/users}" class="list-group-item active">Admin</a>
                 <a class="nav-link" href="/user/">User</a>
             </div>
         </ul>
     </div>
     <div class="col-md-10">
-        <table class="table table-striped" id="myTable">
-            <thead>
-            <h1>Admin panel</h1>
-            <tr>
-                <ul class="nav nav-tabs" role="tablist">
-                    <li class="nav-item"><a class="nav-link active" href="/admin">Users table</a></li>
-                    <li class="nav-item"><a class="nav-link" href="/admin/new">New User</a></li>
-                </ul>
-                <h3>All users</h3>
-                <th>ID</th>
-                <th>First Name</th>
-                <th>Last Name</th>
-                <th>Age</th>
-                <th>Email</th>
-                <th>Role</th>
-                <th>Edit</th>
-                <th>Delete</th>
-            </tr>
-            </thead>
-            <tbody id="tableBody">
+        <h2><b>Admin panel</b></h2>
+        <nav>
+            <div class="nav nav-tabs" id="nav-tab" role="tablist">
+                <a class="nav-link active" id="nav-home-tab" data-toggle="tab"
+                   href="#nav-home" role="tab" aria-controls="nav-home"
+                   aria-selected="true">Users table</a>
+                <a class="nav-link" id="nav-profile-tab" data-toggle="tab"
+                   href="#nav-profile" role="tab" aria-controls="nav-profile"
+                   aria-selected="false">New User</a>
+            </div>
+        </nav>
+        <div class="tab-content" id="nav-tabContent">
+            <div class="tab-pane fade show active" id="nav-home" role="tabpanel"
+                 aria-labelledby="nav-home-tab">
+                <div class="tab-content">
+                    <div class="card">
+                        <div class="card-header">
+                            <h5 class="sub-header">All users</h5>
+                        </div>
+                        <div class="card-body">
+                            <table class="table table-hover table-striped"
+                                   style="background: white">
+                                <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>First name</th>
+                                    <th>Last name</th>
+                                    <th>Age</th>
+                                    <th>Email</th>
+                                    <th>Role</th>
+                                    <th>Edit</th>
+                                    <th>Delete</th>
+                                </tr>
+                                </thead>
+                                <tbody id="adminTable">
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
 
+            <div class="tab-pane fade" id="nav-profile" role="tabpanel"
+                 aria-labelledby="nav-profile-tab">
+                <div class="tab-content">
+                    <div class="card">
+                        <div class="card-header">
+                            <b>Add new user</b>
+                        </div>
+                        <div class="card-body" align="center">
+                            <div class="newUser">
+                                <form id="NewUserForm" name="newUserForm">
+                                        <div id="edit" class="row">
+                                            <div class="col-md-4"></div>
+                                            <div class="col-md-2">
 
-            </tbody>
-        </table>
+                                                <div class="form-group">
+                                                    <label for="newName" style="font-weight: bold; text-align: center">First name </label>
+                                                    <input type="text" class="form-control" id="newName" required pattern=".{2,20}">
+                                                </div>
 
+                                                <div class="form-group">
+                                                    <label for="newLastName" style="font-weight: bold">Last name </label>
+                                                    <input type="text" class="form-control" id="newLastName" required pattern=".{2,20}">
+                                                </div>
+
+                                                <div class="form-group">
+                                                    <label for="newAge" style="font-weight: bold">Age </label>
+                                                    <input type="number" class="form-control" min="1" max="100" id="newAge" required>
+                                                </div>
+
+                                                <div class="form-group">
+                                                    <label for="newEmail" style="font-weight: bold">Email </label>
+                                                    <input type="email" class="form-control" id="newEmail" required>
+                                                </div>
+
+                                                <div class="form-group">
+                                                    <label for="newPassword" style="font-weight: bold">Password </label>
+                                                    <input type="password" class="form-control" id="newPassword" required>
+                                                </div>
+
+                                                <div class="form-group">
+                                                    <label for="newRole" style="font-weight: bold">Role </label>
+                                                    <br>
+                                                    <select class="form-select" multiple
+                                                            aria-label="multiple select example" size="2" id="newRole" name="role" required>
+                                                        <option value=1>ADMIN</option>
+                                                        <option value=2>USER</option>
+                                                    </select>
+                                                </div>
+
+                                                <button id="buttonSubmitNew" type="submit" class="btn btn-success addBtn">Add new user</button>
+                                            </div>
+                                        </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
 
         <th:block th:each="user : ${users}">
 
@@ -129,8 +205,8 @@
                             <div class="modal-footer">
                                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Close
                                 </button>
-                                <button type="submit" class="btn btn-danger"
-                                        data-toggle="modal" id="ddd">Delete
+                                <button id="buttonSubmitDelete" type="submit" class="btn btn-danger"
+                                        data-dismiss="modal" >Delete
                                 </button>
                             </div>
                         </div>
@@ -140,7 +216,7 @@
             </form>
 
             <form class="editForm" th:method="GET"
-                  method="post" id="editForm" th:object="${user}">
+                   id="editForm" th:object="${user}">
                 <div class="modal fade" id="editModal" tabindex="-1" role="dialog"
                      aria-labelledby="editUser" aria-hidden="true">
 
@@ -207,7 +283,7 @@
                                 </div>
                                 <div class="form-group">
                                     <select class="form-select" multiple
-                                            aria-label="multiple select example" size="2" id="role" name="roles" required>
+                                            aria-label="multiple select example" size="2" id="role" name="role" required>
                                         <option value="1">ADMIN</option>
                                         <option value="2">USER</option>
                                     </select>
@@ -218,8 +294,8 @@
                                 <button type="button" class="btn btn-secondary"
                                         data-dismiss="modal">Close
                                 </button>
-                                <button type="submit" class="btn btn-primary"
-                                        data-toggle="modal">
+                                <button id="buttonSubmitEdit" type="submit" class="btn btn-primary"
+                                        data-dismiss="modal">
                                     Edit
                                 </button>
 
@@ -247,7 +323,7 @@
         integrity="sha384-+YQ4JLhjyBLPDQt//I+STsc9iw4uQqACwlvpslubQzn4u2UU2UFM80nGisd026JF"
         crossorigin="anonymous"></script>
 
-<script type="text/javascript" th:src="@{/fetch.js}" src="/static/fetch.js"></script>
+<script type="text/javascript" th:src="@{/admin.js}" src="/static/admin.js"></script>
 
 </body>
 </html>

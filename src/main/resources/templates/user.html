@@ -21,8 +21,8 @@
 <div class="row pt-4 bg-light justify-content-start">
     <div class="col col-md-2 bg-white flex-column mb-2">
         <ul class="nav flex-column nav-pills ">
-            <div sec:authorize="hasAnyRole('ROLE_ADMIN')">
-                <a th:href="@{/admin/}" class="list-group-item">Admin</a>
+            <div>
+                <a sec:authorize="hasRole('ADMIN')" th:href="@{/admin/users}" class="list-group-item">Admin</a>
             </div>
             <div>
                 <a class="nav-link active" href="/user">User</a>
@@ -82,6 +82,8 @@
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.min.js"
         integrity="sha384-+YQ4JLhjyBLPDQt//I+STsc9iw4uQqACwlvpslubQzn4u2UU2UFM80nGisd026JF"
         crossorigin="anonymous"></script>
+<script type="text/javascript" th:src="@{/user.js}" src="/static/admin.js"></script>
+
 
 </body>
 </html>

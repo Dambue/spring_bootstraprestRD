@@ -1,9 +1,8 @@
 package com.dambue.spring_boot.service;
 
-import com.dambue.spring_boot.model.Role;
+import com.dambue.spring_boot.dao.UserDAOImpl;
 import com.dambue.spring_boot.model.User;
-import com.dambue.spring_boot.repository.RoleRepository;
-import com.dambue.spring_boot.repository.UserRepository;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -12,47 +11,43 @@ import java.util.List;
 @Service
 public class UserServiceImpl implements UserService {
 
-    private final UserRepository userRepository;
+    private final UserDAOImpl userRepository;
+    private final PasswordEncoder passwordEncoder;
 
-    private final RoleRepository roleRepository;
-
-    public UserServiceImpl(UserRepository userRepository, RoleRepository roleRepository) {
+    public UserServiceImpl(UserDAOImpl userRepository, PasswordEncoder passwordEncoder) {
         this.userRepository = userRepository;
-        this.roleRepository = roleRepository;
+        this.passwordEncoder = passwordEncoder;
     }
 
     @Override
-    public List<User> index() {
-        return userRepository.findAll();
+    public List<User> getUsers() {
+        return userRepository.getUsersWithRoles();
     }
 
     @Override
     @Transactional
     public void save(User user) {
+        user.setPassword(passwordEncoder.encode(user.getPassword()));
         userRepository.save(user);
     }
 
     @Override
     @Transactional
     public void delete(Long id) {
-        userRepository.deleteById(id);
+        userRepository.delete(id);
     }
 
     @Override
-    @Transactional
-    public User show(Long id) {
-        return userRepository.findById(id).get();
+    public User getUserById(Long id) {
+        return userRepository.getUserById(id);
     }
 
     @Override
     @Transactional
     public void update(User updUser) {
-        userRepository.save(updUser);
-    }
-
-    @Override
-    @Transactional
-    public Role findRoleById(Long id) {
-        return roleRepository.findRoleById(id);
+        if (!userRepository.getUserPassword(updUser).equals(updUser.getPassword())) {
+            updUser.setPassword(passwordEncoder.encode(updUser.getPassword()));
+        }
+        userRepository.update(updUser);
     }
 }
