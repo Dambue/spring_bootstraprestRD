@@ -121,14 +121,12 @@ $("#buttonSubmitEdit").on('click', (event) => {
             method: 'PUT',
             headers: {'Content-Type': 'application/json'},
             body: JSON.stringify(editedUser)
-        })
-    setTimeout(() => createAdminTable(), 200);
+        }).then(() => setTimeout(() => createAdminTable(), 200))
 })
 
 $("#buttonSubmitDelete").on('click', (event) => {
     let id = $("#id2").val();
     event.preventDefault()
     fetch(`/api/admin/user/${id}`,
-        {method: `DELETE`});
-    setTimeout(() => createAdminTable(), 200);
+        {method: `DELETE`}).then(() => setTimeout(() => createAdminTable(), 200));
 })
